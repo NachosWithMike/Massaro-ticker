@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Massaro Ticker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta name="theme-color" content="#000000">
+  <style>
+    body { background: black; color: red; font-family: monospace; display: flex; flex-direction: column;
+           justify-content: flex-start; align-items: center; margin: 0; padding-top: 5vh; text-align: center; }
+    .amount-label { font-size: 2em; margin-bottom: 0.5em; }
+    .amount { font-size: 3.5em; }
+    .note { color: gray; font-size: 1em; }
+  </style>
+</head>
+<body>
+  <div class="amount-label">Chris Bowen owes you:</div>
+  <div class="amount" id="ticker">$0.0000</div>
+  <div class="note" id="note"></div>
+  <audio id="tick-sound" src="sound.wav" preload="auto"></audio>
+  <script>
+    const base = 523436.88;
+    const dailyIncrease = 3.29;
+    const startDate = new Date("2024-12-09T00:00:00");
+    const perSecond = dailyIncrease / 86400;
+    function update() {
+      const now = new Date();
+      const seconds = (now - startDate) / 1000;
+      const total = base + (seconds * perSecond);
+      document.getElementById("ticker").textContent = "$" + total.toLocaleString(undefined, {
+        minimumFractionDigits: 4, maximumFractionDigits: 4
+      });
+      document.getElementById("tick-sound").play();
+    }
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
