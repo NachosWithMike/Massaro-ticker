@@ -1,10 +1,10 @@
 {
-  "name": "Massaro Ticker",
-  "short_name": "Ticker",
+  "name": "Chris Bowen Owes You",
+  "short_name": "CB Owes You",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#000000",
+  "description": "A running total of what Chris Bowen owes you.",
   "icons": [
     {
       "src": "icon-192.png",
