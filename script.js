@@ -1,8 +1,8 @@
 
 // Constants
-const loanAmount = 200;
-const interestRate = 0.07; // 7% annual interest
-const loanStartDate = new Date("2023-07-01T00:00:00"); // Replace with real date
+const loanAmount = 515471.19; // Principal from hypothetical tab (no interest)
+const interestRate = 0.07;     // 7% annual interest
+const loanStartDate = new Date("2024-12-09T00:00:00");
 
 let withInterest = true;
 
@@ -12,38 +12,42 @@ function getElapsedTime() {
   return now - loanStartDate;
 }
 
-// Function to calculate total owed
-function calculateOwed() {
-  if (!withInterest) return loanAmount;
+// Function to calculate amount owed
+function calculateAmount() {
+  if (!withInterest) return loanAmount.toFixed(2);
 
-  const elapsedMs = getElapsedTime();
-  const elapsedYears = elapsedMs / (1000 * 60 * 60 * 24 * 365.25);
-  return loanAmount * Math.pow(1 + interestRate, elapsedYears);
+  const elapsed = getElapsedTime();
+  const years = elapsed / (1000 * 60 * 60 * 24 * 365.25);
+  const amountWithInterest = loanAmount * Math.pow(1 + interestRate, years);
+  return amountWithInterest.toFixed(2);
 }
 
-// Update ticker
+// Function to update display
 function updateDisplay() {
-  const amount = calculateOwed();
-  const formattedAmount = `$${amount.toFixed(2)}`;
-  document.getElementById("amount").textContent = formattedAmount;
+  const amount = calculateAmount();
+  document.getElementById("amount").innerText = `$${amount}`;
 }
 
-// Start the counter
-setInterval(updateDisplay, 100);
-
-// Event listeners
+// Button toggle logic
 document.getElementById("withInterest").addEventListener("click", () => {
   withInterest = true;
-  document.getElementById("withInterest").classList.add("active");
-  document.getElementById("noInterest").classList.remove("active");
+  updateDisplay();
+  setActive("withInterest");
 });
-
 document.getElementById("noInterest").addEventListener("click", () => {
   withInterest = false;
-  document.getElementById("noInterest").classList.add("active");
-  document.getElementById("withInterest").classList.remove("active");
+  updateDisplay();
+  setActive("noInterest");
 });
 
-// Initial display
+function setActive(id) {
+  document.getElementById("withInterest").classList.remove("active");
+  document.getElementById("noInterest").classList.remove("active");
+  document.getElementById(id).classList.add("active");
+}
+
+// Initial update
 updateDisplay();
 
+// Optional: Auto-update every second
+setInterval(updateDisplay, 1000);
